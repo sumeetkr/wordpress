@@ -1,9 +1,0 @@
-#!/bin/sh
-# Usage: bin/compile <build-dir>
-
-if [ -f $1/setup/wp-config.php ]; then
-  echo "Wordpress"
-  exit 0
-else
-  exit 1
-fi
