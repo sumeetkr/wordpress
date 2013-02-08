@@ -16,16 +16,16 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'database_name_here');
-
-/** MySQL database username */
-define('DB_USER', 'username_here');
-
-/** MySQL database password */
-define('DB_PASSWORD', 'password_here');
-
-/** MySQL hostname */
-define('DB_HOST', 'localhost');
+if (isset($_SERVER["DATABASE_URL"])) {
+ $db = parse_url($_SERVER["DATABASE_URL"]);
+ define("DB_NAME", trim($db["path"],"/"));
+ define("DB_USER", $db["user"]);
+ define("DB_PASSWORD", $db["pass"]);
+ define("DB_HOST", $db["host"]);
+}
+else {
+ die("Your heroku DATABASE_URL does not appear to be correctly specified.");
+}
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');
@@ -42,14 +42,14 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         'put your unique phrase here');
-define('SECURE_AUTH_KEY',  'put your unique phrase here');
-define('LOGGED_IN_KEY',    'put your unique phrase here');
-define('NONCE_KEY',        'put your unique phrase here');
-define('AUTH_SALT',        'put your unique phrase here');
-define('SECURE_AUTH_SALT', 'put your unique phrase here');
-define('LOGGED_IN_SALT',   'put your unique phrase here');
-define('NONCE_SALT',       'put your unique phrase here');
+define('AUTH_KEY',         'c[*Vk)N-t)V(MmcHc;e^+8/*95)|BBd+U@Ze@-gxkn/YR(}nxs@}Tca+|Hoyik7-');
+define('SECURE_AUTH_KEY',  'uFT]?{#RWFIdVbk6O>6$/#zs1ry;7g6_^Yj|R6TqDX;u-/!tRw!L+G:o)3UAjRk&');
+define('LOGGED_IN_KEY',    '-4#N5C&#/|N:/!>-6zlQqvB^ cpd}sbD3n0noR1G[dNx]FcUJv{(p%|Gt_<xB3fr');
+define('NONCE_KEY',        'pv*(G<gd8n?=7[i>B 21_Mzp>lX?SMj,5{HnHp~[FX3Pae<z~L3<vTK{Lc9%5y)M');
+define('AUTH_SALT',        'htj(R02M:dP}F#|jYI`Rx98f/%[+Q$).&hJ%@aZjL=z|pw>_K{{+o7+npvO934fK');
+define('SECURE_AUTH_SALT', 'p!@us6H){~#1.k#bs+W^+Eby1QLPY4yJvP$)_hm9|e>+@TH@crfj1;[2v7J.jK^:');
+define('LOGGED_IN_SALT',   '3hq7)O)!ioMb xo0k-w3(0>a8Awr7:ZN&Oy7%rdoVTn;2=G!Y F:a>:+kYI1Nmlw');
+define('NONCE_SALT',       'I],vC^;Wy([TA59e[sE3TH|_=1D?Ecp$pcGNhKsO~k/_i.;t8RnG7PjA|Ye@FI(e');
 
 /**#@-*/
 
@@ -88,3 +88,5 @@ if ( !defined('ABSPATH') )
 
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
+/* Add some deployment-awareness, so links will work locally as well as in production:*/
+define('WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] );
